@@ -24,9 +24,13 @@ class Module
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'modules')]
     private Collection $users;
 
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Test::class)]
+    private Collection $tests;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->tests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,6 +72,36 @@ class Module
     {
         if ($this->users->removeElement($user)) {
             $user->removeModule($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Test>
+     */
+    public function getTests(): Collection
+    {
+        return $this->tests;
+    }
+
+    public function addTest(Test $test): self
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests->add($test);
+            $test->setModule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Test $test): self
+    {
+        if ($this->tests->removeElement($test)) {
+            // set the owning side to null (unless already changed)
+            if ($test->getModule() === $this) {
+                $test->setModule(null);
+            }
         }
 
         return $this;

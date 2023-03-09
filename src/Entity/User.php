@@ -45,12 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Subscription $subscriptions = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Attempt::class)]
+    private Collection $attempts;
+
 
     public function __construct()
     {
         $this->module = new ArrayCollection();
         $this->modules = new ArrayCollection();
         $this->companies = new ArrayCollection();
+        $this->attempts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +232,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSubscriptions(?Subscription $subscriptions): self
     {
         $this->subscriptions = $subscriptions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Attempt>
+     */
+    public function getAttempts(): Collection
+    {
+        return $this->attempts;
+    }
+
+    public function addAttempt(Attempt $attempt): self
+    {
+        if (!$this->attempts->contains($attempt)) {
+            $this->attempts->add($attempt);
+            $attempt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttempt(Attempt $attempt): self
+    {
+        if ($this->attempts->removeElement($attempt)) {
+            // set the owning side to null (unless already changed)
+            if ($attempt->getUser() === $this) {
+                $attempt->setUser(null);
+            }
+        }
 
         return $this;
     }
