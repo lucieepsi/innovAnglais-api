@@ -34,6 +34,7 @@ class Test
     #[ORM\ManyToMany(targetEntity: ListWords::class)]
     private Collection $lists;
 
+
     public function __construct()
     {
         $this->attempts = new ArrayCollection();
@@ -134,4 +135,5 @@ class Test
 
         return $this;
     }
+
 }

@@ -27,8 +27,8 @@ class AttemptFixtures extends Fixture
         foreach($tests as $test) {
             foreach($users as $user) {
                 $attempt = new Attempt();
-                $attempt->setTest($test)
-                    ->setUser($user)
+                $attempt->setUser($user)
+                    ->setTest($test)
                     ->setDateAttempt($this->faker->dateTimeBetween('-1 year'))
                     ->setScore($this->faker->numberBetween(0, 20));
                 $manager->persist($attempt);
