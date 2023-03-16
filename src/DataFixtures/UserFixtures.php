@@ -8,7 +8,9 @@ use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Company;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-class UserFixtures extends Fixture
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private $faker;
     private $passwordHasher;
@@ -33,10 +35,20 @@ class UserFixtures extends Fixture
                     ->setEmail(strtolower($user->getFirstname()).'.'.strtolower($user->getLastname()).'@'.$this->faker->freeEmailDomain())
                     ->setPassword($this->passwordHasher->hashPassword($user, strtolower($user->getFirstname())))
                     ->AddCompany($company);
+                $nModule = mt_rand(0,3);
+                for($r=0; $r<$nModule; $r++){
+                    $user->addModule($this->getReference('module'.$r));
+                }
                 $manager->persist($user);
             }
         }
 
         $manager->flush();
+    }
+    public function getDependencies()
+    {
+        return [
+            TestFixtures::class,
+        ];
     }
 }

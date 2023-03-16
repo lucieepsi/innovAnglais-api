@@ -24,8 +24,9 @@ class ListWordsFixtures extends Fixture implements DependentFixtureInterface
             $theme = new Theme();
             $theme->setLabel($this->faker->word());
             $manager->persist($theme);
-            for($i=0;$i<8;$i++){
+            for($i=0;$i<9;$i++){
                 $listWords = new ListWords();
+                $this->setReference('listWords'.($i+($i0*8)), $listWords);
                 $listWords->addWord($this->getReference('word'.mt_rand(0,799)))
                 ->setLabel($this->faker->word())
                 ->setTheme($theme);

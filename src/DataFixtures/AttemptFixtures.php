@@ -10,8 +10,9 @@ use App\Entity\Attempt;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
-class AttemptFixtures extends Fixture
+class AttemptFixtures extends Fixture implements DependentFixtureInterface
 {
     private $faker;
 
@@ -23,18 +24,27 @@ class AttemptFixtures extends Fixture
     {
         $tests = $manager->getRepository(Test::class)->findAll();
         $users = $manager->getRepository(User::class)->findAll();
-
         foreach($tests as $test) {
             foreach($users as $user) {
-                $attempt = new Attempt();
-                $attempt->setUser($user)
-                    ->setTest($test)
-                    ->setDateAttempt($this->faker->dateTimeBetween('-1 year'))
-                    ->setScore($this->faker->numberBetween(0, 20));
-                $manager->persist($attempt);
+                if(mt_rand(0,1)==1){
+                    $attempt = new Attempt();
+                    $attempt->setUser($user)
+                        ->setTest($test)
+                        ->setDateAttempt($this->faker->dateTimeBetween('-1 year'))
+                        ->setScore($this->faker->numberBetween(0, 20));
+                    $manager->persist($attempt);
+                }
             }
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+            TestFixtures::class,
+        ];
     }
 }
