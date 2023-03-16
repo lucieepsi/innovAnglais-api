@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[ApiResource]

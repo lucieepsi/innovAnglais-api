@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\WordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+
+#[ApiResource(normalizationContext:['groups' => ['read']])]
 #[ORM\Entity(repositoryClass: WordRepository::class)]
-#[ApiResource]
+
 #[ORM\Table(name:"Words")]
 class Word
 {
@@ -18,15 +21,18 @@ class Word
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255)]
     private ?string $translation = null;
 
     #[ORM\ManyToMany(targetEntity: ListWords::class, mappedBy: 'words')]
     private Collection $listWords;
 
+    #[Groups(["read"])]
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'words')]
     private Collection $category;
 

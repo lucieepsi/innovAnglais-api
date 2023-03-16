@@ -8,9 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource(normalizationContext:['groups' => ['read']])]
 #[ORM\Table(name:"Users")]
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,9 +23,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    #[Groups(["read"])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -30,12 +37,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
+    #[Groups(["read"])]
     #[ORM\ManyToMany(targetEntity: Module::class, inversedBy: 'users')]
     private Collection $modules;
 
