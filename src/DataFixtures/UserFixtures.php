@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
             $company = new Company();
             $company->setLabel($this->faker->word());
             $manager->persist($company);
-
+            
             for ($j = 0; $j < 2; $j++) {
                 $user = new User();
                 $user->setLastname($this->faker->lastName())
