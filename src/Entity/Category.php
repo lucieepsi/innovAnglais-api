@@ -7,9 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource]
+#[ApiResource(normalizationContext:['groups' => ['read']])]
 #[ORM\Table(name:"Categories")]
 class Category
 {
@@ -18,6 +19,7 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 

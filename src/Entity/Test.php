@@ -7,10 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: TestRepository::class)]
-#[ApiResource]
+#[ApiResource(normalizationContext:['groups' => ['read']])]
 #[ORM\Table(name:"Tests")]
 class Test
 {
@@ -19,9 +20,11 @@ class Test
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
+    #[Groups(["read"])]
     #[ORM\Column]
     private ?float $level = null;
 
@@ -32,6 +35,7 @@ class Test
     #[ORM\OneToMany(mappedBy: 'test', targetEntity: Attempt::class)]
     private Collection $attempts;
 
+    #[Groups(["read"])]
     #[ORM\ManyToMany(targetEntity: ListWords::class)]
     private Collection $lists;
 
