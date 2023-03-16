@@ -11,7 +11,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: ListWordsRepository::class)]
-#[ApiResource(normalizationContext:['groups' => ['read']])]
+#[ApiResource(
+    normalizationContext:['groups' => ['read']],
+    security: "is_granted('ROLE_USER')"
+    )]
 #[ORM\Table(name:"ListsWords")]
 class ListWords
 {

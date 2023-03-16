@@ -11,7 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
-#[ApiResource(normalizationContext:['groups' => ['read']])]
+#[ApiResource(
+    normalizationContext:['groups' => ['read']],
+    security: "is_granted('ROLE_USER')")]
 #[ORM\Table(name:"Themes")]
 class Theme
 {

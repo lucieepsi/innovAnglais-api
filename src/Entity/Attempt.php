@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 #[ORM\Entity(repositoryClass: AttemptRepository::class)]
-#[ApiResource]
+#[ApiResource(security: "is_granted('ROLE_USER')")]
 #[ORM\Table(name:"Attempts")]
 class Attempt
 {

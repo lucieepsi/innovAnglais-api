@@ -10,7 +10,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource(normalizationContext:['groups' => ['read']])]
+#[ApiResource(
+    normalizationContext:['groups' => ['read']],
+    security: "is_granted('ROLE_USER')"
+    )]
 #[ORM\Table(name:"Categories")]
 class Category
 {

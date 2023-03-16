@@ -8,7 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[ApiResource]
+#[ApiResource(security: "is_granted('ROLE_USER')")]
 #[ORM\Table(name:"Companies")]
 class Company
 {

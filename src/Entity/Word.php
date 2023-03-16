@@ -10,7 +10,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 
-#[ApiResource(normalizationContext:['groups' => ['read']])]
+#[ApiResource(
+    normalizationContext:['groups' => ['read']],
+    security: "is_granted('ROLE_USER')"
+    )]
 #[ORM\Entity(repositoryClass: WordRepository::class)]
 
 #[ORM\Table(name:"Words")]
