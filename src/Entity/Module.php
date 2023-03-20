@@ -7,10 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
-#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[ApiResource(
+    normalizationContext:['groups' => ['read']],
+    itemOperations: ["get"=>["security"=>"user in users"]]  
+    )]
 #[ORM\Table(name:"Modules")]
 class Module
 {
@@ -19,6 +23,7 @@ class Module
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(["read"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
