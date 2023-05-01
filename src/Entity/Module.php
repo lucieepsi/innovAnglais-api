@@ -12,8 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 #[ApiResource(
-    normalizationContext:['groups' => ['read']],
-    itemOperations: ["get"=>["security"=>"user in users"]]  
+    normalizationContext:['groups' => ['read']] 
     )]
 #[ORM\Table(name:"Modules")]
 class Module
@@ -21,16 +20,17 @@ class Module
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["readUser", "read"])]
     private ?int $id = null;
 
-    #[Groups(["readUser"])]
+    #[Groups(["readUser", "read"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'modules')]
     private Collection $users;
 
-    #[Groups(["readUser"])]
+    #[Groups(["read"])]
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Test::class)]
     private Collection $tests;
 
