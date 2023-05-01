@@ -23,13 +23,14 @@ class Module
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $label = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'modules')]
     private Collection $users;
 
+    #[Groups(["readUser"])]
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Test::class)]
     private Collection $tests;
 

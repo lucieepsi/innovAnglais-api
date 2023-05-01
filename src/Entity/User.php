@@ -14,9 +14,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
-    normalizationContext:['groups' => ['read']],
+    normalizationContext:['groups' => ['readUser']],
     itemOperations: ["get"=>["security"=>"object == user"]]  
     )] 
+#[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
 #[ORM\Table(name:"Users")]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -26,11 +27,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -40,15 +41,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[Groups(["read"])]
+    #[Groups(["readUser"])]
     #[ORM\ManyToMany(targetEntity: Module::class, inversedBy: 'users')]
     private Collection $modules;
 

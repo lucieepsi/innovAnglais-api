@@ -30,6 +30,9 @@ class Attempt
     #[ORM\JoinColumn(nullable: false)]
     private ?Test $test = null;
 
+    #[ORM\Column]
+    private ?int $numQuestion = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,6 +82,18 @@ class Attempt
     public function setTest(?Test $test): self
     {
         $this->test = $test;
+
+        return $this;
+    }
+
+    public function getNumQuestion(): ?int
+    {
+        return $this->numQuestion;
+    }
+
+    public function setNumQuestion(int $numQuestion): self
+    {
+        $this->numQuestion = $numQuestion;
 
         return $this;
     }
