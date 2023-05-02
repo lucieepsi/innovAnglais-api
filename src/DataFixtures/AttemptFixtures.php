@@ -31,7 +31,8 @@ class AttemptFixtures extends Fixture implements DependentFixtureInterface
                     $attempt->setUser($user)
                         ->setTest($test)
                         ->setDateAttempt($this->faker->dateTimeBetween('-1 year'))
-                        ->setScore($this->faker->numberBetween(0, 20));
+                        ->setScore($this->faker->numberBetween(0, 5));
+                    $attempt->setNumQuestion(5);
                     $manager->persist($attempt);
                 }
             }

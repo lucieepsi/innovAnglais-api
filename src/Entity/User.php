@@ -10,13 +10,24 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     normalizationContext:['groups' => ['readUser']],
-    itemOperations: ["get"=>["security"=>"object == user"]]  
-    )] 
+    itemOperations: ["get"=>["security"=>"object == user"]],
+    collectionOperations: [
+        'get',
+        'post' => [
+            'security' => 'is_granted("ROLE_ADMIN")',
+            'filters' => [SearchFilter::class]
+        ]
+    ]
+)]
+
 #[ApiFilter(SearchFilter::class, properties: ['email' => 'exact'])]
 #[ORM\Table(name:"Users")]
 
@@ -25,6 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["readUser"])]
     private ?int $id = null;
 
     #[Groups(["readUser"])]

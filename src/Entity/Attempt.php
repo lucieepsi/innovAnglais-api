@@ -5,9 +5,17 @@ use App\Repository\AttemptRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 #[ORM\Entity(repositoryClass: AttemptRepository::class)]
-#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[ApiResource(
+    security:"is_granted('ROLE_USER')",
+    paginationItemsPerPage: 6,
+)]
+#[ApiFilter(SearchFilter::class, properties: ['user' => 'exact'])]
+
+
 #[ORM\Table(name:"Attempts")]
 class Attempt
 {
