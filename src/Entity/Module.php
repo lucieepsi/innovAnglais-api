@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 #[ApiResource(
     normalizationContext:['groups' => ['read']],
-    paginationItemsPerPage: 6, 
+    paginationItemsPerPage: 5, 
     )]
 #[ORM\Table(name:"Modules")]
 class Module
