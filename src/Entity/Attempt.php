@@ -11,8 +11,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Entity(repositoryClass: AttemptRepository::class)]
 #[ApiResource(
     security:"is_granted('ROLE_USER')",
+    order: ['dateAttempt' => 'DESC'],
     paginationItemsPerPage: 5,
-    order: ['dateAttempt' => 'DESC']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['user' => 'exact'])]
 

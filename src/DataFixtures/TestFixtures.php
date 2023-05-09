@@ -20,7 +20,7 @@ class TestFixtures extends Fixture  implements DependentFixtureInterface
 
  public function load(ObjectManager $manager): void
 {
-    for ($i = 0; $i < 15; $i++) {
+    for ($i = 0; $i < 13; $i++) {
         $module = new Module();
         $this->setReference('module'.$i, $module);
         $module->setLabel($this->faker->word());

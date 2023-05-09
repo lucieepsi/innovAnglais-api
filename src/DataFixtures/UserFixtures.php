@@ -22,20 +22,25 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $company = new Company();
             $company->setLabel($this->faker->word());
             $manager->persist($company);
             
-            for ($j = 0; $j < 2; $j++) {
+            for ($j = 0; $j < 5; $j++) {
                 $user = new User();
                 $user->setLastname($this->faker->lastName())
                     ->setFirstname($this->faker->firstName())
                     ->setRoles(array('ROLE_USER'))
-                    ->setEmail(strtolower($user->getFirstname()).'.'.strtolower($user->getLastname()).'@'.$this->faker->freeEmailDomain())
-                    ->setPassword($this->passwordHasher->hashPassword($user, strtolower($user->getFirstname())))
+                    ->setEmail(strtolower($user->getFirstname()).'.'
+                    .strtolower($user->getLastname())
+                    .'@'.$this->faker->freeEmailDomain())
+                    ->setPassword($this->passwordHasher->hashPassword(
+                        $user, 
+                        strtolower($user->getFirstname())
+                    ))
                     ->AddCompany($company);
-                $nModule = mt_rand(0,3);
+                $nModule = mt_rand(1,13);
                 for($r=0; $r<$nModule; $r++){
                     $user->addModule($this->getReference('module'.$r));
                 }
