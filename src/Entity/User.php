@@ -18,7 +18,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     normalizationContext:['groups' => ['readUser']],
-    itemOperations: ["get"=>["security"=>"object == user"]],
+    itemOperations: ["get"=>["security"=>"object == user"], 'put'=>["security"=>"object == user"]],
     collectionOperations: [
         'get',
         'post' => [
