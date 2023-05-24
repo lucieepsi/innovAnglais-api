@@ -29,7 +29,18 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             
             for ($j = 0; $j < 5; $j++) {
                 $user = new User();
-                $user->setLastname($this->faker->lastName())
+                if($i==0 && $j==0){
+                    $user->setLastname("Slam")
+                    ->setFirstname("Jury")
+                    ->setRoles(array('ROLE_USER'))
+                    ->setEmail("jury.slam@epsi.fr")
+                    ->setPassword($this->passwordHasher->hashPassword(
+                        $user, 
+                        "Gr0upe2epsi*"
+                    ))
+                    ->AddCompany($company);
+                }else{
+                    $user->setLastname($this->faker->lastName())
                     ->setFirstname($this->faker->firstName())
                     ->setRoles(array('ROLE_USER'))
                     ->setEmail(strtolower($user->getFirstname()).'.'
@@ -40,6 +51,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                         strtolower($user->getFirstname())
                     ))
                     ->AddCompany($company);
+                }
                 $nModule = mt_rand(1,13);
                 for($r=0; $r<$nModule; $r++){
                     $user->addModule($this->getReference('module'.$r));

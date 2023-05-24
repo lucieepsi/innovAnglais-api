@@ -18,7 +18,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     normalizationContext:['groups' => ['readUser']],
-    itemOperations: ["get"=>["security"=>"object == user"], 'put'=>["security"=>"object == user"]],
+    itemOperations: ["get"=>["security"=>"object == user"], 'patch'=>["security"=>"object == user"]],
     collectionOperations: [
         'get',
         'post' => [
@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(["readUser"])]
     private ?int $id = null;
 
-    #[Groups(["readUser"])]
+    #[Groups(["readUser", "patchAllow"])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
@@ -53,11 +53,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(["readUser"])]
+    #[Groups(["readUser", "patchAllow"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[Groups(["readUser"])]
+    #[Groups(["readUser", "patchAllow"])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
